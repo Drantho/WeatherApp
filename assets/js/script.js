@@ -241,6 +241,9 @@ $(document).ready(function () {
         $("#forecastDiv").html("")
 
         var coords = {};
+        var matchArray = [];
+
+        console.log(searchLocation)
 
         // if city, state, and country are declared
         if (searchLocation.state && searchLocation.country) {
@@ -252,7 +255,8 @@ $(document).ready(function () {
                     coords.latitude = cities[i].latitude;
                     searchLocation.city = cities[i].name;
                     searchLocation.state = cities[i].state_code;
-                    searchLocation.country = cities[i].country_code;                    
+                    searchLocation.country = cities[i].country_code;   
+                    break;                 
                 }
             }
         }
@@ -267,21 +271,25 @@ $(document).ready(function () {
                     searchLocation.city = cities[i].name;
                     searchLocation.state = cities[i].state_code;
                     searchLocation.country = cities[i].country_code;
+                    break;
                 }
             }
             
         } 
         // only city is declared
         else{
-            // search for city match
+            // search for all city matches            
             for (var i = 0; i < cities.length; i++) {                
                 if (cities[i].name.toLowerCase() === searchLocation.city.toLowerCase()){
                     // set object values
-                    coords.longitude = cities[i].longitude;
-                    coords.latitude = cities[i].latitude;
-                    searchLocation.city = cities[i].name;
-                    searchLocation.state = cities[i].state_code;
-                    searchLocation.country = cities[i].country_code;
+                    
+                    var match = {
+                        city: cities[i].name,
+                        state: cities[i].state_code,
+                        country: cities[i].country_code
+                    }
+
+                    matchArray.push(match);
                 }
             }
         }
@@ -295,8 +303,31 @@ $(document).ready(function () {
             $("#forecastH2").text(`Forecast For ${searchLocation.city}, ${searchLocation.state}, ${searchLocation.country}`);
         }
 
-        // no match found in database, exit function
-        else{
+        // multiple city matches found display all options in modal
+        else if(matchArray.length > 1){
+            var body = $(".modal-body");
+            body.empty();
+
+            // create link to search() with city and state soecified
+            for(var i=0; i<matchArray.length; i++){
+                var link = $("<a>").data("city", matchArray[i].city).data("state", matchArray[i].state).data("country", matchArray[i].country);
+                link.append(matchArray[i].city + " - " + matchArray[i].state + " - " + matchArray[i].country);
+                link.addClass("cityLink");
+                link.append($("<br>"))
+                body.append(link);
+            }
+            
+            $('#citySelectModal').modal();
+            return
+        }
+        // exacty 1 result found call search with city and state specified
+        else if(matchArray.length == 1){
+            searchLocation = matchArray[0];
+            search();
+        } 
+        // no matches
+        else
+        {
             alert("City not found")
             return
         }
@@ -310,6 +341,17 @@ $(document).ready(function () {
             setViewed();
         }
     }
+
+    // event handler for links in modal
+    $(document).on("click", ".cityLink", function(){        
+        searchLocation = {
+            city: $(this).data("city"),
+            state: $(this).data("state"),
+            country: $(this).data("country")
+        }
+        $('#citySelectModal').modal("toggle");
+        search();
+    });
 
     // use regex to search for certain keywords in weather description and change background image if found
     function getBackground(weather) {
