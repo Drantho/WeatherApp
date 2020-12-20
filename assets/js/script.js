@@ -151,38 +151,38 @@ $(document).ready(function () {
                 forecastDayDiv.addClass("forecast-day");
 
                 // add weather info
-                $("<h3>").text(formatDate(weatherArr.dt, "short")).appendTo(forecastDayDiv);
-                $("<h3>").text(weatherArr.weather[0].description).appendTo(forecastDayDiv);
+                $("<h3>").text(formatDate(weatherArr[i].dt, "short")).appendTo(forecastDayDiv);
+                $("<h3>").text(weatherArr[i].weather[0].description).appendTo(forecastDayDiv);
                 
-                $("<img>").attr("src", `http://openweathermap.org/img/wn/${weatherArr.weather[0].icon}@2x.png`).attr("alt", weatherArr.weather[0].description).appendTo(forecastDayDiv);
+                $("<img>").attr("src", `http://openweathermap.org/img/wn/${weatherArr[i].weather[0].icon}@2x.png`).attr("alt", weatherArr[i].weather[0].description).appendTo(forecastDayDiv);
                 $("<br>").appendTo(forecastDayDiv);
                 
                 $("<strong>").text("Low Temp: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr.temp.min)
+                $(forecastDayDiv).append(weatherArr[i].temp.min)
                 $("<br>").appendTo(forecastDayDiv);
                 
                 $("<strong>").text("High Temp: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr.temp.max)
+                $(forecastDayDiv).append(weatherArr[i].temp.max)
                 $("<br>").appendTo(forecastDayDiv);
                 
                 $("<strong>").text("Cloud Cover: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr.clouds + "%")
+                $(forecastDayDiv).append(weatherArr[i].clouds + "%")
                 $("<br>").appendTo(forecastDayDiv);
                 
                 $("<strong>").text("Wind: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr.wind_speed + " MPH")
+                $(forecastDayDiv).append(weatherArr[i].wind_speed + " MPH")
                 $("<br>").appendTo(forecastDayDiv);
 
                 $("<strong>").text("Humidity: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr.humidity + "%")
+                $(forecastDayDiv).append(weatherArr[i].humidity + "%")
                 $("<br>").appendTo(forecastDayDiv);
 
                 $("<strong>").text("UV Index: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr.uvi + "%")
+                $(forecastDayDiv).append(weatherArr[i].uvi)
                 $("<br>").appendTo(forecastDayDiv);
 
                 $("<strong>").text("Precipitation: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(Math.floor(weatherArr.pop * 100) + "%")
+                $(forecastDayDiv).append(Math.floor(weatherArr[i].pop * 100) + "%")
                 $("<br>").appendTo(forecastDayDiv);
 
                 // add day to display
@@ -318,6 +318,7 @@ $(document).ready(function () {
         var sunnyRegEx = /clear|sun/i;
         var rainyRegEx = /rain|drizzle/i;
         var snowyRegEx = /snow/i;
+        var mistyRegEx = /mist|haze/i;
 
         if (cloudyRegEx.test(weather)) {
             return "./assets/images/cloudy.jpg";
@@ -330,6 +331,9 @@ $(document).ready(function () {
         }
         if (snowyRegEx.test(weather)) {
             return "./assets/images/snowy.jpg";
+        }
+        if(mistyRegEx.test(weather)){
+            return "./assets/images/misty.jpg";
         }
 
         // if none found display nice background

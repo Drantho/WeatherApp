@@ -13,7 +13,8 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-2">
+            <!-- Search and search list -->
+            <div class="col-md-3">
                 <div id=input>
                     <h2>My Places</h2>
                     <input type="text" class="form-control" id="locationText"><br>
@@ -22,27 +23,32 @@
                 </div>
 
             </div>
-            <div class="col-md-10">
+            <!-- main section -->
+            <div class="col-md-9">
 
-                <div id="demo" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div id="WeatherCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 
-                    <!-- Indicators -->
+                    <!-- links to control carousel -->
                     <ul class="carousel-indicators">
-                        <li data-target="#demo" data-slide-to="0" class="active">Current</li>
-                        <li data-target="#demo" data-slide-to="1">Forecast</li>
+                        <li data-target="#WeatherCarousel" data-slide-to="0" class="active">Current</li>
+                        <li data-target="#WeatherCarousel" data-slide-to="1">Forecast</li>
                     </ul>
 
-                    <!-- The slideshow -->
+                    <!-- main content -->
                     <div class="carousel-inner glass">
+                        <!-- current weather conditions -->
                         <div class="carousel-item active">
                             <h2 id="currentH2">Current Weather</h2>
+                            <hr>
                             <div id="current" class="my-panel">
                                 
                                 <div id="currentWeatherDiv" class="row"></div>
                             </div>
                         </div>
+                        <!-- forecast -->
                         <div class="carousel-item">
                             <h2 id="forecastH2">Weather Forecast</h2>
+                            <hr>
                             <div class="my-panel">
                                 
                                 <div id="forecastDiv"></div>
@@ -50,16 +56,14 @@
                         </div>
                     </div>
 
-                    <!-- Left and right controls -->
-                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                    <!-- more links to control carousel -->
+                    <a class="carousel-control-prev" href="#WeatherCarousel" data-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                     </a>
-                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <a class="carousel-control-next" href="#WeatherCarousel" data-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </a>
                 </div>
-
-
 
             </div>
 

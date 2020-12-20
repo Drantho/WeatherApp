@@ -1,9 +1,21 @@
 body{
+    background-color: #185888;
     background-size: cover;
     background-repeat: no-repeat;
     padding: 50px 0;
 }
 
+h3, h2{
+    text-transform: capitalize;
+    color: rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.65);
+}
+
+
+/* 
+search History styles
+=======================================================================================================================
+*/
 .saved-search{
     text-transform: capitalize;
     cursor: pointer;
@@ -20,27 +32,40 @@ body{
     box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.5);
 }
 
-.location{
-    text-transform: capitalize;
+.btn{
+    display: block;
+    margin: 0 auto 40px auto;
 }
 
-h3, h2{
-    text-transform: capitalize;
-    color: white;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-}
+#pastSearchesDiv{
+    max-height: 600px;
+    overflow-y: scroll;
+    padding: 0 10px 0 0; 
+}   
 
-.forecast-day{
-    display: inline-block;
-    border: 2px solid rgba(0, 0, 0, 0.5);
-    font-size: 0.8em;
-    padding: 8px;
-    margin: 8px;
-    background-color: rgba(255,255,255,0.5);
-    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-}
+/* style scrollbar in search history div */
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: rbga(0, 0, 0, 0.5); 
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
 
+/* 
+Carousel styles 
+=============================================================================================================
+*/
+
+/* allow frame indicators to have text content */
 .carousel-indicators>li{
     width: auto;
     height: auto;
@@ -50,28 +75,34 @@ h3, h2{
     top: 75px;
 }
 
-#forecastDiv{
-    margin: 0 -40px;
-}
+/* 
+Main content Styles
+=============================================================================================================
+*/
 
-#forecastDiv h3{
-    font-size: 1em;
-    text-align: center;
-    color: black;
-}
-
+/* add top white space to main content */
 .my-panel{
     margin-top: 30px;
 }
 
-.currentTitle{
-    text-align: center;
-    padding: 50px 0;
+/* add glassy effect to main info container */
+.glass{
+    background-color: rgba(255,255,255,0.2);
+    padding: 50px;
+    border-radius: 5px;
+    backdrop-filter: blur(10px);
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255,255,255,0.2)
 }
 
+/* 
+Current condition styles
+=======================================================================================================================
+*/
+
 .currentInfo{
-    color: white;
-    text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+    color: black;
+    text-shadow: 3px 3px 3px rgba(0,0,0,0.3);
 }
 
 #mainIcon{
@@ -89,37 +120,38 @@ h3, h2{
     margin: 0;
 }
 
-.glass{
-    background-color: rgba(255,255,255,0.2);
-    padding: 50px;
-    border-radius: 5px;
+/* 
+Forecast styles
+==========================================================================================================================
+*/
+/* style daily forecast containers */
+.forecast-day{
+    display: inline-block;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    font-size: 0.8em;
+    padding: 24px 12px;
+    margin: 8px;
+    background-color: rgba(255,255,255,0.5);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
-    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
 }
 
-.btn{
-    display: block;
-    margin: 0 auto 40px auto;
+#forecastDiv{    
+    margin: 0 -40px;
 }
 
-#pastSearchesDiv{
-    max-height: 600px;
-    overflow-y: scroll;
-    padding: 0 10px 0 0; 
+#forecastDiv h3{
+    font-size: 1em;
+    text-align: center;
+    color: black;
 }
 
-::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: rbga(0, 0, 0, 0.5); 
-  }
-   
-  ::-webkit-scrollbar-thumb {
-    background: #888; 
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-  }
+
+
+
+
+
+
+
+
+
