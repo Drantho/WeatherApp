@@ -96,11 +96,11 @@ $(document).ready(function () {
             var containerDiv = $("<div>").addClass("currentInfo")
 
             $("<strong>").text("Current Temperature: ").appendTo(containerDiv);
-            $(containerDiv).append(response.current.temp)
+            $(containerDiv).append(response.current.temp + "°F")
             $("<br>").appendTo(containerDiv);
 
             $("<strong>").text("Feels Like: ").appendTo(containerDiv);
-            $(containerDiv).append(response.current.feels_like)
+            $(containerDiv).append(response.current.feels_like + "°F")
             $("<br>").appendTo(containerDiv);
 
             $("<strong>").text("Cloud Cover: ").appendTo(containerDiv);
@@ -116,7 +116,7 @@ $(document).ready(function () {
             $("<br>").appendTo(containerDiv);
 
             $("<strong>").text("UV Index: ").appendTo(containerDiv);
-            $(containerDiv).append(response.current.uvi)
+            $("<span>").addClass("currentUVIndicator").css("background-color", getUVColor(response.current.uvi)).append(response.current.uvi).appendTo(containerDiv)            
             $("<br>").appendTo(containerDiv);
 
             div3.append(containerDiv);
@@ -159,11 +159,11 @@ $(document).ready(function () {
                 $("<br>").appendTo(forecastDayDiv);
                 
                 $("<strong>").text("Low Temp: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr[i].temp.min)
+                $(forecastDayDiv).append(weatherArr[i].temp.min + "°F")
                 $("<br>").appendTo(forecastDayDiv);
                 
                 $("<strong>").text("High Temp: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr[i].temp.max)
+                $(forecastDayDiv).append(weatherArr[i].temp.max + "°F")
                 $("<br>").appendTo(forecastDayDiv);
                 
                 $("<strong>").text("Cloud Cover: ").appendTo(forecastDayDiv);
@@ -179,7 +179,7 @@ $(document).ready(function () {
                 $("<br>").appendTo(forecastDayDiv);
 
                 $("<strong>").text("UV Index: ").appendTo(forecastDayDiv);
-                $(forecastDayDiv).append(weatherArr[i].uvi)
+                $("<span>").addClass("forecastUVIndicator").css("background-color", getUVColor(weatherArr[i].uvi)).append(weatherArr[i].uvi).appendTo($(forecastDayDiv));
                 $("<br>").appendTo(forecastDayDiv);
 
                 $("<strong>").text("Precipitation: ").appendTo(forecastDayDiv);
@@ -463,6 +463,20 @@ $(document).ready(function () {
             }
         }
         return -1;
+    }
+
+    // display color based on uv danger level
+    function getUVColor(float){
+        if(float<= 2){
+            return "green";
+        }
+        if(float<=5){
+            return "yellow"
+        }
+        if(float<= 10){
+            return "red"
+        }
+        return "purple"
     }
 
     // list of state abbreviations

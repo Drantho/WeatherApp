@@ -8,7 +8,7 @@ body{
 h3, h2{
     text-transform: capitalize;
     color: rgba(0, 0, 0, 0.8);
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.65);
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
 a{
@@ -36,7 +36,7 @@ search History styles
 
 .btn{
     display: block;
-    margin: 0 auto 40px auto;
+    margin: 0 auto 18px auto;
 }
 
 #pastSearchesDiv{
@@ -122,6 +122,12 @@ Current condition styles
     margin: 0;
 }
 
+.currentUVIndicator{
+    padding: 3px 10px;
+    border-radius: 4px;
+    color: white;
+}
+
 /* 
 Forecast styles
 ==========================================================================================================================
@@ -136,6 +142,12 @@ Forecast styles
     background-color: rgba(255,255,255,0.5);
     box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
+}
+
+.forecastUVIndicator{
+    padding: 2px 8px;
+    border-radius: 2px;
+    color: white;
 }
 
 #forecastDiv{    
