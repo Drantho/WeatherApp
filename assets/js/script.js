@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     // global variables
     // api key for OpenWeatherMap
@@ -23,11 +24,11 @@ $(document).ready(function () {
             response = JSON.parse(response);            
             
             // get city and state from Geolocation API
-            var searchString = response.city + "," + response.state; 
+            var searchString = response.city + "," + response.state;      
 
             // convert to object and set global variable
             processLocation(searchString)
-            
+
             // call search weather
             search();
         })
@@ -469,7 +470,6 @@ $(document).ready(function () {
         "TX",
         "UT",
         "VT",
-        "VI",
         "VA",
         "WA",
         "WV",
