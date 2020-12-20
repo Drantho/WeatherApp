@@ -1,7 +1,125 @@
 body{
-    /* background-color: red; */
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 50px 0;
 }
 
-table{
-    border: 2px solid black;
+.saved-search{
+    text-transform: capitalize;
+    cursor: pointer;
+    margin: 10px 0;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    padding: 3px 8px;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(20px);
+    color: white;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.saved-search:hover{
+    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.5);
+}
+
+.location{
+    text-transform: capitalize;
+}
+
+h3, h2{
+    text-transform: capitalize;
+    color: white;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.forecast-day{
+    display: inline-block;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    font-size: 0.8em;
+    padding: 8px;
+    margin: 8px;
+    background-color: rgba(255,255,255,0.5);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.carousel-indicators>li{
+    width: auto;
+    height: auto;
+    text-indent: unset;
+    padding: 6px 12px;
+    position: relative;
+    top: 75px;
+}
+
+#forecastDiv{
+    margin: 0 -40px;
+}
+
+#forecastDiv h3{
+    font-size: 1em;
+    text-align: center;
+    color: black;
+}
+
+.my-panel{
+    margin-top: 30px;
+}
+
+.currentTitle{
+    text-align: center;
+    padding: 50px 0;
+}
+
+.currentInfo{
+    color: white;
+    text-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+}
+
+#mainIcon{
+    width: 300px;
+}
+
+.col-md-4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.currentWeatherDiv{
+    padding: 25px 75px;
+    margin: 0;
+}
+
+.glass{
+    background-color: rgba(255,255,255,0.2);
+    padding: 50px;
+    border-radius: 5px;
+    backdrop-filter: blur(10px);
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn{
+    display: block;
+    margin: 0 auto 40px auto;
+}
+
+#pastSearchesDiv{
+    max-height: 600px;
+    overflow-y: scroll;
+    padding: 0 10px 0 0; 
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: rbga(0, 0, 0, 0.5); 
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
