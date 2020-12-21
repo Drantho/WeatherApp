@@ -21,7 +21,9 @@ $(document).ready(function () {
             url: url,
             method: "GET"
         }).then(function (response) {
-            response = JSON.parse(response);            
+            response = JSON.parse(response);   
+            
+            console.log(response);
             
             // get city and state from Geolocation API
             var searchString = response.city + "," + response.state;      
