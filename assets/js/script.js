@@ -8,34 +8,43 @@ $(document).ready(function () {
     // array for search location data
     var searchLocation = {};
 
-    // find user's location by IP on page load
-    $.ajax({
-        url: "https://api.ipify.org/?format=json",
-        dataType: 'JSON',
-    }).then(function (data) {
-        console.log("user ip", data.ip);
 
-        var url = `https://geolocation-db.com/json/${data.ip}}&APIKEY=${apiKey}`;
-
+    if (savedSearches.length === 0) {
+        // find user's location by IP on page load
         $.ajax({
-            url: url,
-            method: "GET"
-        }).then(function (response) {
-            response = JSON.parse(response);   
-            
-            console.log(response);
-            
-            // get city and state from Geolocation API
-            var searchString = response.city + "," + response.state;      
+            url: "https://api.ipify.org/?format=json",
+            dataType: 'JSON',
+        }).then(function (data) {
+            console.log("user ip", data.ip);
 
-            // convert to object and set global variable
-            processLocation(searchString)
+            var url = `https://geolocation-db.com/json/${data.ip}}&APIKEY=${apiKey}`;
 
-            // call search weather
-            search();
-        })
+            $.ajax({
+                url: url,
+                method: "GET"
+            }).then(function (response) {
+                response = JSON.parse(response);
 
-    });
+                console.log(response);
+
+                // get city and state from Geolocation API
+                var searchString = response.city + "," + response.state;
+
+                // convert to object and set global variable
+                processLocation(searchString)
+
+                // call search weather
+                search();
+            })
+
+        });
+    }
+    else{
+        searchLocation = savedSearches[savedSearches.length-1];
+        search();
+    }
+
+
 
     // display list of saved searches as clickable buttons
     setViewed();
@@ -56,7 +65,7 @@ $(document).ready(function () {
     $(document).on("click", ".saved-search", function () {
 
         // convert text to object and set global variable
-        processLocation($(this).text());        
+        processLocation($(this).text());
 
         // call search weather for location
         search()
@@ -118,7 +127,7 @@ $(document).ready(function () {
             $("<br>").appendTo(containerDiv);
 
             $("<strong>").text("UV Index: ").appendTo(containerDiv);
-            $("<span>").addClass("currentUVIndicator").css("background-color", getUVColor(response.current.uvi)).append(response.current.uvi).appendTo(containerDiv)            
+            $("<span>").addClass("currentUVIndicator").css("background-color", getUVColor(response.current.uvi)).append(response.current.uvi).appendTo(containerDiv)
             $("<br>").appendTo(containerDiv);
 
             div3.append(containerDiv);
@@ -143,11 +152,11 @@ $(document).ready(function () {
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-            
+
             var weatherArr = response.daily;
 
             // get 5 days of info for forecast
-            for(var i=0; i<5; i++){
+            for (var i = 0; i < 5; i++) {
 
                 // create container for single day forecast
                 var forecastDayDiv = $("<div>");
@@ -156,22 +165,22 @@ $(document).ready(function () {
                 // add weather info
                 $("<h3>").text(formatDate(weatherArr[i].dt, "short")).appendTo(forecastDayDiv);
                 $("<h3>").text(weatherArr[i].weather[0].description).appendTo(forecastDayDiv);
-                
+
                 $("<img>").attr("src", `http://openweathermap.org/img/wn/${weatherArr[i].weather[0].icon}@2x.png`).attr("alt", weatherArr[i].weather[0].description).appendTo(forecastDayDiv);
                 $("<br>").appendTo(forecastDayDiv);
-                
+
                 $("<strong>").text("Low Temp: ").appendTo(forecastDayDiv);
                 $(forecastDayDiv).append(weatherArr[i].temp.min + "°F")
                 $("<br>").appendTo(forecastDayDiv);
-                
+
                 $("<strong>").text("High Temp: ").appendTo(forecastDayDiv);
                 $(forecastDayDiv).append(weatherArr[i].temp.max + "°F")
                 $("<br>").appendTo(forecastDayDiv);
-                
+
                 $("<strong>").text("Cloud Cover: ").appendTo(forecastDayDiv);
                 $(forecastDayDiv).append(weatherArr[i].clouds + "%")
                 $("<br>").appendTo(forecastDayDiv);
-                
+
                 $("<strong>").text("Wind: ").appendTo(forecastDayDiv);
                 $(forecastDayDiv).append(weatherArr[i].wind_speed + " MPH")
                 $("<br>").appendTo(forecastDayDiv);
@@ -197,20 +206,20 @@ $(document).ready(function () {
 
     // create buttons from local storage search history
     function setViewed() {
-        
+
         // create button-like div
         $("#pastSearchesDiv").html("");
-        
+
         // loop through each item in local storage array
         savedSearches.forEach(element => {
-            
+
             // add info to div
             var newDiv = $("<div>");
             newDiv.text(element.city);
-            if(element.state){
+            if (element.state) {
                 newDiv.append(", " + element.state)
             }
-            if(element.country){
+            if (element.country) {
                 newDiv.append(", " + element.country)
             }
             newDiv.attr("class", "saved-search");
@@ -251,22 +260,7 @@ $(document).ready(function () {
         if (searchLocation.state && searchLocation.country) {
             // search list for match
             for (var i = 0; i < cities.length; i++) {
-                if (cities[i].name.toLowerCase() === searchLocation.city.toLowerCase() && cities[i].state_code.toLowerCase() === searchLocation.state.toLowerCase() && cities[i].country_code.toLowerCase() === searchLocation.country.toLowerCase()){
-                    // set object values
-                    coords.longitude = cities[i].longitude;
-                    coords.latitude = cities[i].latitude;
-                    searchLocation.city = cities[i].name;
-                    searchLocation.state = cities[i].state_code;
-                    searchLocation.country = cities[i].country_code;   
-                    break;                 
-                }
-            }
-        }
-        // only city and state are declared
-        else if (searchLocation.state) {
-            // search list for match
-            for (var i = 0; i < cities.length; i++) {
-                if (cities[i].name.toLowerCase() === searchLocation.city.toLowerCase() && cities[i].state_code.toLowerCase() === searchLocation.state.toLowerCase()){
+                if (cities[i].name.toLowerCase() === searchLocation.city.toLowerCase() && cities[i].state_code.toLowerCase() === searchLocation.state.toLowerCase() && cities[i].country_code.toLowerCase() === searchLocation.country.toLowerCase()) {
                     // set object values
                     coords.longitude = cities[i].longitude;
                     coords.latitude = cities[i].latitude;
@@ -276,15 +270,30 @@ $(document).ready(function () {
                     break;
                 }
             }
-            
-        } 
-        // only city is declared
-        else{
-            // search for all city matches            
-            for (var i = 0; i < cities.length; i++) {                
-                if (cities[i].name.toLowerCase() === searchLocation.city.toLowerCase()){
+        }
+        // only city and state are declared
+        else if (searchLocation.state) {
+            // search list for match
+            for (var i = 0; i < cities.length; i++) {
+                if (cities[i].name.toLowerCase() === searchLocation.city.toLowerCase() && cities[i].state_code.toLowerCase() === searchLocation.state.toLowerCase()) {
                     // set object values
-                    
+                    coords.longitude = cities[i].longitude;
+                    coords.latitude = cities[i].latitude;
+                    searchLocation.city = cities[i].name;
+                    searchLocation.state = cities[i].state_code;
+                    searchLocation.country = cities[i].country_code;
+                    break;
+                }
+            }
+
+        }
+        // only city is declared
+        else {
+            // search for all city matches            
+            for (var i = 0; i < cities.length; i++) {
+                if (cities[i].name.toLowerCase() === searchLocation.city.toLowerCase()) {
+                    // set object values
+
                     var match = {
                         city: cities[i].name,
                         state: cities[i].state_code,
@@ -297,8 +306,8 @@ $(document).ready(function () {
         }
 
         // if match is found call api searches
-        if(coords.latitude && coords.longitude){            
-            getCurrentWeather(coords);  
+        if (coords.latitude && coords.longitude) {
+            getCurrentWeather(coords);
             getForecast(coords);
 
             $("#currentH2").text(`Current Weather For ${searchLocation.city}, ${searchLocation.state}, ${searchLocation.country}`);
@@ -306,36 +315,35 @@ $(document).ready(function () {
         }
 
         // multiple city matches found display all options in modal
-        else if(matchArray.length > 1){
+        else if (matchArray.length > 1) {
             var body = $(".modal-body");
             body.empty();
 
             // create link to search() with city and state soecified
-            for(var i=0; i<matchArray.length; i++){
+            for (var i = 0; i < matchArray.length; i++) {
                 var link = $("<a>").data("city", matchArray[i].city).data("state", matchArray[i].state).data("country", matchArray[i].country);
                 link.append(matchArray[i].city + " - " + matchArray[i].state + " - " + matchArray[i].country);
                 link.addClass("cityLink");
                 link.append($("<br>"))
                 body.append(link);
             }
-            
+
             $('#citySelectModal').modal();
             return
         }
         // exacty 1 result found call search with city and state specified
-        else if(matchArray.length == 1){
+        else if (matchArray.length == 1) {
             searchLocation = matchArray[0];
             search();
-        } 
+        }
         // no matches
-        else
-        {
+        else {
             alert("City not found")
             return
         }
 
         // check if search is already in localStorage and add if not
-        if (getLocalStoragePosition(searchLocation) < 0) {            
+        if (getLocalStoragePosition(searchLocation) < 0) {
             savedSearches.push(searchLocation);
             localStorage.setItem("savedWeatherSearches", JSON.stringify(savedSearches));
 
@@ -345,7 +353,7 @@ $(document).ready(function () {
     }
 
     // event handler for links in modal
-    $(document).on("click", ".cityLink", function(){        
+    $(document).on("click", ".cityLink", function () {
         searchLocation = {
             city: $(this).data("city"),
             state: $(this).data("state"),
@@ -377,7 +385,7 @@ $(document).ready(function () {
         if (snowyRegEx.test(weather)) {
             return "./assets/images/snowy.jpg";
         }
-        if(mistyRegEx.test(weather)){
+        if (mistyRegEx.test(weather)) {
             return "./assets/images/misty.jpg";
         }
 
@@ -391,14 +399,14 @@ $(document).ready(function () {
     function processLocation(str) {
 
         // clear global variable of previous values
-        searchLocation = {};        
+        searchLocation = {};
 
         // if commas are in string, separate to array
         if (str.indexOf(",") > -1) {
 
             // find how many commas
             var count = str.match(/,/g).length;
-            
+
             // if 1 comma found result will be a city & state or city & country
             if (count == 1) {
                 var tempArr = str.split(",");
@@ -406,7 +414,7 @@ $(document).ready(function () {
                 searchLocation.state = tempArr[1].trim();
 
                 // determine if full state name occurs in 2nd element, convert to state code if so
-                if (stateFull.includes(searchLocation.state.toLowerCase())) {                    
+                if (stateFull.includes(searchLocation.state.toLowerCase())) {
                     searchLocation.state = stateAbv[stateFull.indexOf(searchLocation.state.toLowerCase())]
                 }
 
@@ -423,7 +431,7 @@ $(document).ready(function () {
                 searchLocation.state = tempArr[1].trim();
                 searchLocation.country = tempArr[2].trim();
             }
-        } 
+        }
         // no commas assumes just city value
         else {
             searchLocation.city = str
@@ -432,34 +440,34 @@ $(document).ready(function () {
     }
 
     // returns true if str is found in either state abbreviation array or full state name array
-    function isState(str) {        
+    function isState(str) {
         return stateAbv.includes(str.toUpperCase()) || stateFull.includes(str.toLowerCase())
     }
 
     // search function returns array position of location object or -1 if not found
     // state and country values are optional
     // TODO refactor as all objects now include city, state, and country
-    function getLocalStoragePosition(obj){
-        for(var i=0; i<savedSearches.length; i++){
-            if(obj.country){
-                if(obj.state){
-                    if(savedSearches[i].state == obj.state && savedSearches[i].city == obj.city && savedSearches[i].country == obj.country){
+    function getLocalStoragePosition(obj) {
+        for (var i = 0; i < savedSearches.length; i++) {
+            if (obj.country) {
+                if (obj.state) {
+                    if (savedSearches[i].state == obj.state && savedSearches[i].city == obj.city && savedSearches[i].country == obj.country) {
                         return i
                     }
                 }
-                else{
-                    if(savedSearches[i].city == obj.city && savedSearches[i].country == obj.country){
+                else {
+                    if (savedSearches[i].city == obj.city && savedSearches[i].country == obj.country) {
                         return i
                     }
                 }
             }
-            if(obj.state){
-                if(savedSearches[i].state == obj.state && savedSearches[i].city == obj.city){
+            if (obj.state) {
+                if (savedSearches[i].state == obj.state && savedSearches[i].city == obj.city) {
                     return i
                 }
             }
-            else{
-                if(savedSearches[i].city == obj.city){
+            else {
+                if (savedSearches[i].city == obj.city) {
                     return i
                 }
             }
@@ -468,14 +476,14 @@ $(document).ready(function () {
     }
 
     // display color based on uv danger level
-    function getUVColor(float){
-        if(float<= 2){
+    function getUVColor(float) {
+        if (float <= 2) {
             return "green";
         }
-        if(float<=5){
+        if (float <= 5) {
             return "yellow"
         }
-        if(float<= 10){
+        if (float <= 10) {
             return "red"
         }
         return "purple"
