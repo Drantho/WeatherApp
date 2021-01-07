@@ -2,7 +2,10 @@
  This app allows you to search weather by city accross the planet. It shows current weather, 5 day forecast, and keeps a history for you to easily check your favorite places.
 
 view app: https://drantho.github.io/WeatherApp/
+-------------------------------------------------------------------------------------------------------------------------------------------------
 
+## Contact
+contact me at mitchellanthonyd@gmail.com
 -------------------------------------------------------------------------------------------------------------------------------------------------
  ## Features
 - User presented with current location, based on IP, on page load.
